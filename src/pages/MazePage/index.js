@@ -4,8 +4,11 @@ import { MazeContainer,ControlPanel,Button,Board,Row,Box, ButtonContainer, Block
 import Sidebar from '../../components/Sidebar'
 import Navbar from '../../components/Navbar'
 import { fill,sculpt } from './Algorithm/PrimsR'
-import Algo from './Algorithm_hub'
+import algoGroup from './Algorithm_hub'
 import mazeGenerationAnimations from './animator'
+
+const Algo = algoGroup.solve
+const genAlgo = algoGroup.generate
 
 function MazePage() {
     let buttonState = true
@@ -14,6 +17,7 @@ function MazePage() {
     let start_node = [8,14]
     let end_node = [8,41]
     let Algorithm = ''
+    let Generator = ''
     let speed = 'Fast'
     let carry = false
     let mouse_down = false
@@ -74,11 +78,15 @@ function MazePage() {
         if (to){
             let target = document.getElementById(`${y} ${x}`)
             if(/fa/.test(target.className) && !override){
-                if(to!='Wall'){
+                if(typeof to === 'number'){
+                    target.style.background = `rgb(${to},${to},${to})`
+                }else if(to!='Wall'){
                 let classes = target.className.split(' ')
                 classes[0] = to
                 to = classes.join(' ')}
-                else{return}
+                else{
+                    return
+                }
             }
             ListofType[y][x] = to
             target.className = to
@@ -117,6 +125,7 @@ function MazePage() {
     const isActive = ()=> buttonState
     const set_speed = (item)=>speed=item
     const set_algorithm = (item)=>Algorithm=item
+    const set_generator = (item)=>Generator=item
     const set_carry = (item) => {
         carry=item
     }
@@ -125,7 +134,7 @@ function MazePage() {
 
     return (
         <MazeContainer>
-            <WholePanel set_speed={set_speed} speed_list={speed_list} set_algorithm={set_algorithm} 
+            <WholePanel set_speed={set_speed} speed_list={speed_list} set_algorithm={set_algorithm} set_generator={set_generator}
                 isActive={isActive} generate_maze={()=>generate_maze(ListofType)} clearVisited={()=>clearVisited(ListofType)} 
                 solve={()=>solve(ListofType)} clearGrid={()=>clearGrid(ListofType)} />
             <Board id='board' column={ListofType.length} onMouseDown={()=>mouse_down=true} 
@@ -139,7 +148,7 @@ function MazePage() {
     )
 }
 
-function WholePanel({ set_speed,speed_list,set_algorithm,isActive,generate_maze,clearVisited,solve,clearGrid }) {
+function WholePanel({ set_speed,speed_list,set_algorithm,set_generator,isActive,generate_maze,clearVisited,solve,clearGrid }) {
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -153,6 +162,7 @@ function WholePanel({ set_speed,speed_list,set_algorithm,isActive,generate_maze,
             <Navbar toggle={toggle}/>
             <ControlPanel>
                 <Slider name='Algorithm' list={Object.keys(Algo)} pick={(item)=>{set_algorithm(item)}}/>
+                <Slider name='Generator' list={Object.keys(genAlgo)} pick={(item)=>{set_generator(item)}}/>
                 <ButtonWrapper name='Generate Maze' on_click={generate_maze} isActive={isActive} />
                 <ButtonWrapper name='Find Path' on_click={()=>{clearVisited();solve()}} isActive={isActive} />
                 <ButtonWrapper name='Clear Board' on_click={clearGrid} isActive={isActive} />
