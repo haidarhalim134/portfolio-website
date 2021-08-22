@@ -20,9 +20,8 @@ export function solve(grid,start_node,end_node,update=null){
         return y<grid.length && x<grid[0].length && y>=0 && x>=0
     }
 
-    while(paths.length>=0){
+    while(paths.length>0){
         let [y, x] = paths.pop()
-        console.log(y,x)
         update(y,x,'Visited')
         if(y === end_node[0]&&x === end_node[1]){
             return {moves:moves,finished:true,trail:traverse_moves(to_from,end_node,start_node)}
