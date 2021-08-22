@@ -1,0 +1,70 @@
+.Wall{
+    width: 100%;
+    height: 100%;
+    background: #222021;
+    animation: show .2s running;
+    transition: show 0.2s running;
+    transition-property: transform;
+}
+
+
+.Path{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: #01bf71 solid 0.5px;
+    transition-property: transform, border-radius,background;
+}
+
+.Visited{
+    width: 100%;
+    height: 100%;
+    background: #01bf71;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: ani 2s;
+    transition: ani 2s;
+}
+
+.Trail{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffff03;
+    animation: trai 1.5s;
+}
+
+@keyframes trai{
+    0%{transform:scale(0.6)}
+    50%{transform: scale(1.2)}
+    100%{transform:scale(1)}
+}
+
+@keyframes ani{
+    0%{background: #ffff00}
+    2%{background: #007546;border-radius: 50px;transform:scale(0.3)}
+    50%{background: #02b56c}
+    80%{background: #00e0a8;border-radius: 0px;transform:scale(1.2);border:#02b56c 1px solid}
+    100%{background: #01bf71;transform:scale(1)}
+}
+
+@keyframes show{
+    0%{transform:scale(0.3)}
+    50%{transform:scale(1.3)}
+    100%{transform:scale(1)}
+}
+
+.fa-asterisk{
+    font-size: 20px;
+    font-weight: 45px;
+}
+
+.fa-bullseye{
+    font-size: 20px;
+    font-weight: 45px;
+}
