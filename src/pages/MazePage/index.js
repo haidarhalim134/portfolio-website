@@ -8,7 +8,6 @@ import Algo from './Algorithm_hub'
 import mazeGenerationAnimations from './animator'
 
 function MazePage() {
-    const [test,testt] = useState(true)
     let buttonState = true
 
     let ListofType = []
@@ -16,6 +15,8 @@ function MazePage() {
     let end_node = [8,41]
     let Algorithm = ''
     let speed = 'Fast'
+    let carry = false
+    let mouse_down = false
     const speed_list = ['Fast','Average','Slow']
     //initialize maze with path box
     for(let y=0;y<15;y++){
@@ -51,7 +52,6 @@ function MazePage() {
     }
 
     const solve = (maze) => {
-        testt(!test)
         if(typeof Algo[Algorithm] != 'function'){return}
         let result = Algo[Algorithm](maze,start_node,end_node)
         let moves = [...result.moves]
@@ -70,10 +70,10 @@ function MazePage() {
         mazeGenerationAnimations(board,change,()=>buttonState = true,jump)
     }
 
-    const change = async(y,x,to=null) => {
+    const change = async(y,x,to=null,override=false) => {
         if (to){
             let target = document.getElementById(`${y} ${x}`)
-            if(/fa/.test(target.className)){
+            if(/fa/.test(target.className) && !override){
                 if(to!='Wall'){
                 let classes = target.className.split(' ')
                 classes[0] = to
@@ -93,7 +93,53 @@ function MazePage() {
         }
     }
 
+    const handleBoxClick = (y,x) => {
+        if(/fa/.test(ListofType[y][x]) && !carry && buttonState){
+            carry = ListofType[y][x]
+            change(y, x, 'Path', true)
+            buttonState = false
+            document.getElementById('board').style.cursor = 'crosshair'
+        }else if(carry && !/fa/.test(ListofType[y][x])){
+            change(y, x, carry)
+            buttonState = true
+            document.getElementById('board').style.cursor = 'default'
+            carry = null
+            if(/bul/.test(ListofType[y][x])){
+                end_node = [y, x]
+            }else{
+                start_node = [y, x]
+            }
+        }else if(!carry){
+        change(y, x)
+        }
+    }
+
     const isActive = ()=> buttonState
+    const set_speed = (item)=>speed=item
+    const set_algorithm = (item)=>Algorithm=item
+    const set_carry = (item) => {
+        carry=item
+    }
+
+
+
+    return (
+        <MazeContainer>
+            <WholePanel set_speed={set_speed} speed_list={speed_list} set_algorithm={set_algorithm} 
+                isActive={isActive} generate_maze={()=>generate_maze(ListofType)} clearVisited={()=>clearVisited(ListofType)} 
+                solve={()=>solve(ListofType)} clearGrid={()=>clearGrid(ListofType)} />
+            <Board id='board' column={ListofType.length} onMouseDown={()=>mouse_down=true} 
+                onMouseUp={()=>mouse_down=false} onMouseLeave={()=>mouse_down=false}>
+            {ListofType.map((row,y)=><Row>{row.map((column,x)=>
+                <Box onMouseEnter={()=>{if(mouse_down){change(y,x)}}} onClick={()=>handleBoxClick(y,x)} >
+                <div id={`${y} ${x}`} className={column}/>
+                </Box>)}</Row>)}
+            </Board>
+        </MazeContainer>
+    )
+}
+
+function WholePanel({ set_speed,speed_list,set_algorithm,isActive,generate_maze,clearVisited,solve,clearGrid }) {
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -101,32 +147,32 @@ function MazePage() {
         setIsOpen(!isOpen)
     }
 
-
     return (
-        <MazeContainer>
+        <>
             <Sidebar isOpen={isOpen} toggle={toggle}/>
             <Navbar toggle={toggle}/>
             <ControlPanel>
-                <Slider name='Algorithm' list={Object.keys(Algo)} pick={(item)=>{Algorithm=item}}/>
-                <ButtonWrapper name='Generate Maze' on_click={()=>generate_maze()} isActive={isActive} />
-                <ButtonWrapper name='Find Path' on_click={()=>{clearVisited(ListofType);solve(ListofType)}} isActive={isActive} />
-                <ButtonWrapper name='Clear Board' on_click={()=>clearGrid(ListofType)} isActive={isActive} />
-                <ButtonWrapper name='Clear Path' on_click={()=>clearVisited(ListofType)} isActive={isActive} />
-                <Slider name='Speed' list={speed_list} pick={(item)=>{speed=item}} initial={speed}/>
+                <Slider name='Algorithm' list={Object.keys(Algo)} pick={(item)=>{set_algorithm(item)}}/>
+                <ButtonWrapper name='Generate Maze' on_click={generate_maze} isActive={isActive} />
+                <ButtonWrapper name='Find Path' on_click={()=>{clearVisited();solve()}} isActive={isActive} />
+                <ButtonWrapper name='Clear Board' on_click={clearGrid} isActive={isActive} />
+                <ButtonWrapper name='Clear Path' on_click={clearVisited} isActive={isActive} />
+                <Slider name='Speed' list={speed_list} pick={(item)=>{set_speed(item)}} initial={'Fast'}/>
             </ControlPanel>
             <BlocksMenuContainer>
-                <BlocksOption>
-                    {test && 'ok'}
-                    <BlockIcon className='fa fa-asterisk'/>
-                </BlocksOption>
+                <BlocksWrapper name='Start Node' icon='fa fa-asterisk' />
             </BlocksMenuContainer>
-            <Board column={ListofType.length}>
-            {ListofType.map((row,y)=><Row>{row.map((column,x)=>
-                <Box onClick={()=>change(y,x)}>
-                <div id={`${y} ${x}`} className={column}/>
-                </Box>)}</Row>)}
-            </Board>
-        </MazeContainer>
+        </>
+    )
+}
+
+function BlocksWrapper({ name,icon,isActive,available }) {
+    return (
+        <>
+            <BlocksOption>
+                <BlockIcon className={icon} onClick={()=>{if(isActive()){}}} available={()=>available()} /> {name}
+            </BlocksOption>
+        </>
     )
 }
 

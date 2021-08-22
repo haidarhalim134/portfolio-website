@@ -8,7 +8,7 @@ export const MazeContainer = styled.div`
     display: flex;
     flex-direction: column;
     background: #fff;
-    border: red solid 1px
+    /* border: red solid 1px */
 `
 
 export const ControlPanel = styled.div`
@@ -27,26 +27,38 @@ export const ControlPanel = styled.div`
 
 export const BlocksMenuContainer = styled.div`
     height: auto;
+    padding: 10px;
     background: #fff;
     display: flex;
     align-items: start;
 `
 
 export const BlocksOption = styled.div`
-    height: 50px;
+    padding-left: 5px;
+    padding-right: 10px;
+    min-width: 100px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.1s all ease;
+
+    &:hover{
+        background: #01bf71;
+    }
 `
 
 export const BlockIcon = styled.div`
     width: 30px;
     height: 30px;
-    background: #f0f0f0;
+    margin-right: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background: ${({available})=>available?'#f0f0f0':'#fff'};
 `
 
 export const ButtonContainer = styled.div`
@@ -86,7 +98,8 @@ export const Board = styled.div`
     flex-direction: column;
     background: #fff;
     overflow: hidden;
-    border: red 1px solid;
+    cursor: ${({ carry })=>carry?'crosshair':'initial'};
+    /* border: red 1px solid; */
 `
 
 export const Row = styled.div`
