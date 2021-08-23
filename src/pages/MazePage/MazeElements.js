@@ -75,6 +75,8 @@ export const ButtonContainer = styled.div`
 export const Button = styled.div`
     min-width: 150px;
     min-height: 75px;
+    padding-right: 5px;
+    padding-left: 5px;
     color: #fff;
     display: flex;
     overflow: visible;

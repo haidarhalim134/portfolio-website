@@ -64,8 +64,9 @@ function MazePage() {
     }
 
     const generate_maze = () =>{
+        if(typeof genAlgo[Generator] != 'function'){return}
         ListofType = clearGrid(ListofType)
-        let  moves = sculpt(fill(ListofType[0].length,ListofType.length),start_node,end_node)
+        let  moves = genAlgo[Generator](fill(ListofType[0].length,ListofType.length),start_node,end_node)
         animate({wallsToAnimate:moves,speed:speed},true)
     }
 
@@ -77,10 +78,13 @@ function MazePage() {
     const change = async(y,x,to=null,override=false) => {
         if (to){
             let target = document.getElementById(`${y} ${x}`)
-            if(/fa/.test(target.className) && !override){
-                if(typeof to === 'number'){
-                    target.style.background = `rgb(${to},${to},${to})`
-                }else if(to!='Wall'){
+            if(typeof to === 'number'){
+                console.log(target.style['border'])
+                target.style.borderStyle = null
+                target.style.background = `rgb(${to},${to},${to})`
+                return
+            }else if(/fa/.test(target.className) && !override){
+                if(to!='Wall'){
                 let classes = target.className.split(' ')
                 classes[0] = to
                 to = classes.join(' ')}
@@ -207,7 +211,7 @@ function Slider({ name,list,pick,initial }) {
             <ButtonContainer open={open} list={list} onMouseEnter={()=>setOpen(true)} onMouseLeave={()=>setOpen(false)}>
                     {open && list.map((item)=><Button onClick={()=>{pick(item);setShow(item)}}>{item}</Button>)}
                     <Button open={open} onClick={()=>setOpen(!open)}>
-                        {name} {show}
+                        {name}: {show}
                     </Button>
             </ButtonContainer>
         </>
