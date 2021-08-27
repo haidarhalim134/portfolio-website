@@ -17,15 +17,28 @@ export function ThreeObject(
     0.1,
     1000
   );
+
+  this.typeProperties = {
+    Path: { height: 0, color: "#222021" },
+    Wall: { height: 1, color: "#fff" },
+    Visited: { height: 0.5, color: "#01bf71" },
+    Trail: { height: 1, color: "#ffff03" },
+  };
+
   this.camera.position.set(0, 20, 100);
   this.gridHelper = new Three.GridHelper(100, 50);
   this.scene.add(this.gridHelper);
 
   this.ListofBoxes = [];
+  this.ListofType = [];
+
+  this.maxHeight = 10;
+  this.minHeight = -10;
+  this.genMaxHeight = 0
+  this.genMinHeight = 0
 
   let geometry = new Three.BoxGeometry();
   const material = new Three.MeshBasicMaterial({
-    color: 0xff6347,
     wireframe: false,
   });
 
@@ -43,19 +56,38 @@ export function ThreeObject(
     this.ListofBoxes.push(temp);
   }
 
+  this.calcHeight = ( height ) => {
+    let minDiff = this.genMinHeight - this.minHeight
+    return height*this.maxHeight/this.genMaxHeight+minDiff
+  }
+
+  this.change = (y, x, to) => {
+    if (to !== null) {
+      if (typeof to === "number") {
+        this.ListofBoxes[y][x].position.setY(this.calcHeight(to))
+      }else{
+        this.ListofBoxes[y][x].position.setY(this.typeProperties[to].height);
+        this.ListofBoxes[y][x].material.color.setHex(this.typeProperties[to].color)
+      }
+    }
+  }
+
   this.animate = () => {
     if(this.status){
     requestAnimationFrame(this.animate);
     this.controls.update();
-    console.log(this.controls.enabled);
     this.renderer.render(this.scene, this.camera);
     }
   };
 
-  this.init = () => {
+  this.init = (ListofType, genMinHeight, genMaxHeight) => {
+    this.genMinHeight = genMinHeight
+    this.genMaxHeight = genMaxHeight
+    this.ListofType = ListofType;
     this.renderer = new Three.WebGL1Renderer({
       canvas: document.querySelector(`#ThreeD`),
     });
+
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.enableDamping = false;
 

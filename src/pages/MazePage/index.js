@@ -152,8 +152,12 @@ function MazePage() {
       //     console.log('layered')
       // }
       // console.log('if',combine.some((item,index)=>{if(typeof item[2] != 'number'){console.log('got',item)}}))
+      if(!isThreeD){
       animate({ wallsToAnimate: combine, speed: speed }, true);
       ListofType = clearGrid(ListofType);
+      }else{
+        animateThree({ wallsToAnimate: combine, speed: speed }, true);
+      }
       return;
     }
     clearHeight(ListofType);
@@ -179,6 +183,19 @@ function MazePage() {
     );
   };
 
+  const animateThree = (board, jump, func = { func: () => true, arg: [] }) => {
+    buttonState = false;
+    mazeGenerationAnimations(
+      board,
+      Panel.change,
+      () => {
+        func.func(...func.arg);
+        buttonState = true;
+      },
+      jump
+    );
+  };
+  
   const change = async (y, x, to = null, override = false) => {
     if (to !== null) {
       let target = document.getElementById(`${y} ${x}`);
@@ -246,7 +263,7 @@ function MazePage() {
   const set_3D = (item) => {
     if (item) {
       Panel.status = true;
-      Panel.init();
+      Panel.init(ListofType, min_height, max_height);
       Panel.animate();
     } else {
       Panel.status = false;
