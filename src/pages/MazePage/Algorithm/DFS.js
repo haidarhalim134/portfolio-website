@@ -1,10 +1,11 @@
-import { traverse_moves } from "./traverse_moves"
+import { traverse_moves } from "./Tools/traverse_moves"
 
 export function solve(grid,start_node,end_node,update=null){
     const traverse = {1:[1,0],2:[0,1],3:[-1,0],4:[0,-1]}
     let moves = []
     let paths = [start_node]
     let to_from = {}
+    let visited = 0
 
     let table = []
     for(let y=0;y<grid.length;y++){
@@ -23,8 +24,10 @@ export function solve(grid,start_node,end_node,update=null){
     while(paths.length>0){
         let [y, x] = paths.pop()
         update(y,x,'Visited')
+        visited+= 1
         if(y === end_node[0]&&x === end_node[1]){
-            return {moves:moves,finished:true,trail:traverse_moves(to_from,end_node,start_node)}
+            let trail = traverse_moves(to_from,end_node,start_node)
+            return {moves:moves,finished:true,trail:trail,Visited:visited,pLength:trail.length,Effort:trail.length}
         }if(!table[y][x]){
             table[y][x] = true
             to_from[`${y} ${x}`] = []
@@ -36,5 +39,5 @@ export function solve(grid,start_node,end_node,update=null){
                 }
             }
         }
-    }return {moves:moves,finished:false}
+    }return {moves:moves,finished:false,Visited:visited}
 }

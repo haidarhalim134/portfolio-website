@@ -1,9 +1,11 @@
-import { traverse_moves } from "./traverse_moves"
+import { traverse_moves } from "./Tools/traverse_moves"
 
-export function solve(grid,start_node,end_node,update=null){
-    const traverse = {1:[1,0],2:[0,1],3:[-1,0],4:[0,-1]}
+export function solve(grid,start_node,end_node,update=null,terrain=false,traverse=null){
+    if(traverse == null){
+    traverse = {1:[1,0],2:[0,1],3:[-1,0],4:[0,-1]}}
     let moves = []
     let to_from = {}
+    let visited = 0
 
     if(!update){update = (y,x,z) => moves.push([y,x,z])}
 
@@ -23,8 +25,10 @@ export function solve(grid,start_node,end_node,update=null){
     while(priority_queue.length>0){
         let [heuristic, y, x, via] = priority_queue.pop()
         update(y,x,'Visited')
+        visited+= 1
         if(y === end_node[0]&&x === end_node[1]){
-            return {moves:moves,finished:true,trail:traverse_moves(to_from,end_node,start_node)}
+            let trail = traverse_moves(to_from,end_node,start_node)
+            return {moves:moves,finished:true,trail:trail,Visited:visited,pLength:trail.length,Effort:trail.length}
         }if(!table[y][x]){
             table[y][x] = true
             to_from[`${y} ${x}`] = []
@@ -32,7 +36,7 @@ export function solve(grid,start_node,end_node,update=null){
                 let [newy,newx] = [y - traverse[i][0],  x - traverse[i][1]]
                 if(isValid(newy,newx)&&grid[newy][newx]!=='Wall'&&!table[newy][newx]){
                     to_from[`${y} ${x}`].push(`${newy} ${newx}`)
-                    let new_heuristic = Math.sqrt(Math.max(0.3,Math.abs(end_node[0]-newy))*Math.max(0.3,Math.abs(end_node[1]-newx)))*5
+                    let new_heuristic = Math.sqrt(((end_node[0]-newy))**2+((end_node[1]-newx))**2)
                     let condition = priority_queue.some((item,index)=>{
                         if(item[0]<new_heuristic){
                             priority_queue.splice(index,0,[new_heuristic,newy,newx,[y, x]])
@@ -46,7 +50,7 @@ export function solve(grid,start_node,end_node,update=null){
             }
         }
     }
-    return {moves:moves,finished:false}
+    return {moves:moves,finished:false,Visited:visited}
 }
 
 export default solve

@@ -118,3 +118,45 @@ export const Box = styled.div`
     justify-content: center;
     /* border: ${({border})=>border?'#01bf71 solid 0.5px':'#01bf71 solid 0.5px'}; */
 `
+
+export const StatisticsContainer = styled.div`
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+`
+
+export const Statistic = styled.div`
+    min-width: 250px;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: red 1px solid; */
+`
+
+export const Stat = styled.div`
+    margin-right: 5px;
+    margin-left: 10px;
+`
+
+export const StatisticConstant = styled.div`
+    min-width: 25px;
+    min-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+`
+
+export const StatisticIcon = styled.div`
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`

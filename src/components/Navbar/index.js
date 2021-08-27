@@ -8,10 +8,9 @@ const Navbar = ({ toggle }) => {
             <Nav>
                 <NavbarContainer> 
                     <NavLogo to='/'>
-                        do
                     </NavLogo>
-                    <MobileIcon onClick={toggle}>
-                        <FaBars />
+                    <MobileIcon>
+                        <FaBars onClick={toggle}/>
                     </MobileIcon>
                     <NavMenu>
                         <NavItem>

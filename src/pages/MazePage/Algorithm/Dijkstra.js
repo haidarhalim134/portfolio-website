@@ -1,9 +1,11 @@
-import { traverse_moves } from "./traverse_moves"
+import { traverse_moves } from "./Tools/traverse_moves"
+import { get_height } from './Tools/get_height'
 
-export function solve(grid,start_node,end_node,update=null){
+export function solve(grid,start_node,end_node,update=null,terrain=null){
     const traverse = {1:[1,0],2:[0,1],3:[-1,0],4:[0,-1]}
     let moves = []
     let to_from = {}
+    let visited = 0
 
     if(!update){update = (y,x,z) => moves.push([y,x,z])}
 
@@ -22,9 +24,12 @@ export function solve(grid,start_node,end_node,update=null){
     
     while(priority_queue.length>0){
         let [distance, y, x] = priority_queue.pop()
+        // document.getElementById(`${y} ${x}`).innerHTML = Math.floor(distance)
         update(y,x,'Visited')
+        visited+= 1
         if(y === end_node[0]&&x === end_node[1]){
-            return {moves:moves,finished:true,trail:traverse_moves(to_from,end_node,start_node)}
+            let trail = traverse_moves(to_from,end_node,start_node)
+            return {moves:moves,finished:true,trail:trail,Visited:visited,pLength:trail.length,Effort:Math.floor(distance)}
         }if(!table[y][x]){
             table[y][x] = true
             to_from[`${y} ${x}`] = []
@@ -33,6 +38,9 @@ export function solve(grid,start_node,end_node,update=null){
                 if(isValid(newy,newx)&&grid[newy][newx]!=='Wall'&&!table[newy][newx]){
                     to_from[`${y} ${x}`].push(`${newy} ${newx}`)
                     let new_distance = distance + 1
+                    if(terrain){
+                        new_distance+= Math.abs(get_height(y,x)-get_height(newy,newx))
+                    }
                     let condition = priority_queue.some((item,index)=>{
                         if(item[0]<new_distance){
                             priority_queue.splice(index,0,[new_distance,newy,newx])
@@ -46,7 +54,7 @@ export function solve(grid,start_node,end_node,update=null){
             }
         }
     }
-    return {moves:moves,finished:false}
+    return {moves:moves,finished:false,Visited:visited}
 }
 
 export default solve

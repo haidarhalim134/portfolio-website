@@ -48,10 +48,20 @@ export function sculpt(grid, start_node=null, end_node=null, update=null){
     if(!update){update = (y,x,type)=>{moves.push([y,x,type])}}
     perlin.seed()
 
+    let reso = 128
+
     for(let y = 0;y<grid.length;y++){
         for(let x = 0;x<grid[0].length;x++){
-            let value = perlin.get(x/0.9,y/0.9)
-            
+            x/= reso
+            y/= reso
+            let value1 = perlin.get(x/0.9,y/0.9)
+            let value2 = 0.5 * perlin.get(2*x/0.9,2*y/0.9)
+            let value3 = 0.25 * perlin.get(4*x/0.9,4*y/0.9)
+            let sum = [value1,value2,value3].map((item)=>Math.abs(item)).reduce((a,b)=>a+b)
+            let value = (parseInt(sum*255) + 1)*3
+            update(y*reso, x*reso, value)
         }
     }
+    console.log(moves)
+    return moves
 }

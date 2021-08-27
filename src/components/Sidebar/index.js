@@ -1,8 +1,8 @@
 import React from 'react'
 import { SidebarContainer,Icon,CloseIcon,SidebarWrapper,SidebarMenu,SidebarLink,SideBtnWrap,SidebarRoute } from './SidebarElements.js'
-function Sidebar({ isOpen,toggle }) {
+function Sidebar({ isOpen,toggle,remove }) {
     return (
-        <SidebarContainer onClick={toggle} isOpen={isOpen}>
+        <SidebarContainer onClick={toggle} remove={remove} isOpen={isOpen}>
             <Icon onClick={toggle}>
                 <CloseIcon />
             </Icon>
