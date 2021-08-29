@@ -16,8 +16,7 @@ export const SidebarContainer = styled.aside`
     transition: 0.3s ease-in-out;
     display: ${({ remove }) => (remove ? 'none':'initial')};
     opacity: ${({ isOpen }) => (isOpen ? '100%':'100%')};
-    top: ${({ isOpen }) => (isOpen ? '0':'-100%')}; 
-    border: red 1px solid;
+    top: ${({ isOpen }) => (isOpen ? '0':'-200%')};
 `
 
 export const Icon = styled.div`
