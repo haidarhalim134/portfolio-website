@@ -100,6 +100,14 @@ export const Button = styled.div`
     }
 `
 
+export const AlgoDesc = styled.div`
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
 export const Board = styled.div`
     width: 100%;
     height: ${({ column })=>400/15*column}px;

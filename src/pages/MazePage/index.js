@@ -4,6 +4,7 @@ import {
   MazeContainer,
   ControlPanel,
   Button,
+  AlgoDesc,
   Board,
   Row,
   Box,
@@ -358,7 +359,30 @@ function WholePanel({
   set_3D,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [remove, setRemove] = useState(false);
+  const remove = false
+
+  let desc = {
+    "A*": {
+      terrain: "",
+      weight: "weighted",
+      path: "",
+    },
+    Dijkstra: {
+      terrain: "",
+      weight: "weighted",
+      path: "",
+    },
+    "Greedy Best-First Search": {
+      terrain: "does not",
+      weight: "unweighted",
+      path: "does not",
+    },
+    DFS: {
+      terrain: "does not",
+      weight: "unweighted",
+      path: "does not",
+    },
+  };
 
   const toggle = () => {
     if (!isOpen) {
@@ -370,7 +394,7 @@ function WholePanel({
 
   return (
     <>
-      <Sidebar isOpen={isOpen} remove={remove} toggle={toggle} />
+      <Sidebar isOpen={isOpen} remove={remove} toggle={toggle} id="side" />
       <Navbar toggle={toggle} />
       <ControlPanel>
         <SliderContainer>
@@ -379,6 +403,10 @@ function WholePanel({
             list={Object.keys(Algo)}
             pick={(item) => {
               set_algorithm(item);
+              document.getElementById("name").innerHTML = item;
+              document.getElementById("weight").innerHTML = desc[item].weight;
+              document.getElementById("terrain").innerHTML = desc[item].terrain;
+              document.getElementById("path").innerHTML = desc[item].path;
             }}
           />
         </SliderContainer>
@@ -442,6 +470,34 @@ function WholePanel({
         />
         <StatisticWrapper name="Effort" icon="fas fa-hiking" unit="Ugh" />
       </StatisticsContainer>
+      <AlgoDesc>
+        <p>
+          <b>
+            <em>
+              <p id="name">*</p>
+            </em>
+          </b>{" "}
+          is{" "}
+          <b>
+            <em>
+              <p id="weight">*</p>
+            </em>
+          </b>
+          ,{" "}
+          <b>
+            <em>
+              <p id="terrain">*</p> works
+            </em>
+          </b>{" "}
+          with terrain, and
+          <b>
+            <em>
+              <p id="path">*</p> guarantee
+            </em>
+          </b>{" "}
+          the shortest path!
+        </p>
+      </AlgoDesc>
     </>
   );
 }

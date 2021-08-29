@@ -69,3 +69,8 @@
     font-size: 20px;
     font-weight: 45px;
 }
+
+p{
+    display: inline;
+    margin: 0;
+}
