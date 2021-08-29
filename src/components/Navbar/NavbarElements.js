@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { Link as LinkR } from 'react-router-dom'
 import { Link as LinkS} from 'react-scroll'
+import { HashLink as LinkH } from 'react-router-hash-link'
+
 
 export const Nav = styled.nav`
     background: #000;
@@ -80,11 +82,29 @@ export const NavLinks = styled(LinkS)`
     padding: 0 1rem;
     height: 100%;
     cursor: pointer;
+    border-color: #01bf71;
 
     &.active {
         border-bottom: 3px solid #01bf71;
+        transition: border 0.1s ease-in-out;
     }
 `
+
+export const NavLinksTo = styled(LinkH)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  border-color: #01bf71;
+
+  &.active {
+    border-bottom: 3px solid #01bf71;
+    transition: border 0.1s ease-in-out;
+  }
+`;
 
 export const NavBtn = styled.nav`
     display: flex;

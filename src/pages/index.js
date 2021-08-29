@@ -13,13 +13,13 @@ function Home() {
     }
 
     return (
-        <>
-            <Sidebar isOpen={isOpen} toggle={toggle}/>
-            <Navbar toggle={toggle}/>
-            <HeroSection />
-            <ProjectSection />
-        </>
-    )
+      <>
+        <Sidebar isOpen={isOpen} toggle={toggle} homePage={true} />
+        <Navbar toggle={toggle} homePage={true} />
+        <HeroSection id="welcome" />
+        <ProjectSection id="projects" />
+      </>
+    );
 }
 
 export default Home

@@ -29,17 +29,13 @@ function ProjectsSection() {
     }
 
     return (
-        <>
-            <ProjectContainer>
-                <TitleWrap>
-                    <Title>
-                        Projects
-                    </Title>
-                </TitleWrap>
-                <Slider contents={Projects} darken={true}/>
-            </ProjectContainer>
-        </>
-    )
+      <ProjectContainer id='projects'>
+        <TitleWrap>
+          <Title>Projects</Title>
+        </TitleWrap>
+        <Slider contents={Projects} darken={true} />
+      </ProjectContainer>
+    );
 }
 
 export default ProjectsSection
