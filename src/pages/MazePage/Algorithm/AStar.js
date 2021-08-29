@@ -47,6 +47,7 @@ export function solve(
         Effort: Math.floor(distance),
       };
     }
+    console.log(y,x,table.length,table[0].length)
     if (!table[y][x]) {
       table[y][x] = true;
       to_from[`${y} ${x}`] = [];
@@ -62,7 +63,7 @@ export function solve(
             (end_node[0] - newy) ** 2 + (end_node[1] - newx) ** 2
           );
           let new_distance = distance + 1;
-          let new_total = new_heuristic + new_distance / 2;
+          let new_total = new_heuristic + new_distance;
           if (terrain) {
             // let heu = terrain_heuristic(grid,[newy,newx],end_node)
             new_distance += Math.abs(get_height(y, x) - get_height(newy, newx));

@@ -31,7 +31,12 @@ const genAlgo = algoGroup.generate;
 const complex = ["Wave Terrain"];
 
 function MazePage() {
-  const [isThreeD, setThreeD] = useState(false);
+
+  let isThreeD = false
+  
+  const setThreeD = (to) => {
+    isThreeD = to
+  }
 
   let buttonState = true;
 
@@ -64,20 +69,20 @@ function MazePage() {
     ListofType.push(temp);
   }
 
-  const clearGrid = (Grid) => {
+  const clearGrid = (Grid,func=change) => {
     for (let y = 0; y < Grid.length; y++) {
       for (let x = 0; x < Grid[0].length; x++) {
-        change(y, x, "Path");
+        func(y, x, "Path");
       }
     }
     return Grid;
   };
 
-  const clearVisited = (Grid) => {
+  const clearVisited = (Grid,func=change) => {
     for (let y = 0; y < Grid.length; y++) {
       for (let x = 0; x < Grid[0].length; x++) {
         if (/Visited/.test(Grid[y][x]) || /Trail/.test(Grid[y][x])) {
-          change(y, x, "Path");
+          func(y, x, "Path");
         }
       }
     }
@@ -87,14 +92,19 @@ function MazePage() {
   const clearHeight = (Grid) => {
     for (let y = 0; y < Grid.length; y++) {
       for (let x = 0; x < Grid[0].length; x++) {
-        let target = document.getElementById(`${y} ${x}`);
-        target.style = null;
+        if(!isThreeD){
+          let target = document.getElementById(`${y} ${x}`);
+          target.style = null;
+        }else{
+          Panel.change(y, x, 55)
+        }
       }
     }
     return Grid;
   };
 
   const solve = (maze) => {
+    console.log(maze)
     if (typeof Algo[Algorithm] != "function") {
       return;
     }
@@ -134,9 +144,10 @@ function MazePage() {
     if (typeof genAlgo[Generator] != "function") {
       return;
     }
-    ListofType = clearGrid(ListofType);
+    ListofType = clearGrid(ListofType, isThreeD?Panel.change:change);
     if (complex.indexOf(Generator) >= 0) {
       terrain = true;
+      Panel.terrain = true
       let moves = genAlgo[Generator](
         ListofType.slice(),
         min_height,
@@ -153,11 +164,12 @@ function MazePage() {
       // }
       // console.log('if',combine.some((item,index)=>{if(typeof item[2] != 'number'){console.log('got',item)}}))
       animate({ wallsToAnimate: combine, speed: speed }, true);
-      ListofType = clearGrid(ListofType);
+      ListofType = clearGrid(ListofType, isThreeD ? Panel.change : change);
       return;
     }
     clearHeight(ListofType);
     terrain = false;
+      Panel.terrain = false;
     let moves = genAlgo[Generator](
       fill(ListofType[0].length, ListofType.length),
       start_node,
@@ -170,12 +182,28 @@ function MazePage() {
     buttonState = false;
     mazeGenerationAnimations(
       board,
-      change,
+      isThreeD?Panel.change:change,
       () => {
         func.func(...func.arg);
         buttonState = true;
       },
       jump
+    );
+  };
+
+  const sync = (board, func = { func: () => true, arg: [] }) => {
+    let moves = generate_coordinates(board)
+    board = { wallsToAnimate: moves, speed: 'Fast' }
+    buttonState = false;
+    mazeGenerationAnimations(
+      board,
+      !isThreeD ? Panel.change : change,
+      () => {
+        func.func(...func.arg);
+        buttonState = true;
+      },
+      true,
+      [1,1]
     );
   };
 
@@ -246,10 +274,16 @@ function MazePage() {
   const set_3D = (item) => {
     if (item) {
       Panel.status = true;
+      Panel.genMinHeight = min_height
+      Panel.genMaxHeight = max_height
       Panel.init(ListofType, min_height, max_height);
       Panel.animate();
+      sync(ListofType)
+      document.getElementById('ThreeD').style.display = 'initial'
     } else {
       Panel.status = false;
+      sync(Panel.ListofType);
+      document.getElementById("ThreeD").style.display = "none";
     }
     setThreeD(item);
   };
@@ -272,9 +306,13 @@ function MazePage() {
         set_generator={set_generator}
         isActive={isActive}
         generate_maze={() => generate_maze(ListofType)}
-        clearVisited={() => clearVisited(ListofType)}
-        solve={() => solve(ListofType)}
-        clearGrid={() => clearGrid(ListofType)}
+        clearVisited={() =>
+          clearVisited(ListofType, isThreeD ? Panel.change : change)
+        }
+        solve={() => solve(isThreeD ? Panel.ListofType:ListofType)}
+        clearGrid={() =>
+          clearGrid(ListofType, isThreeD ? Panel.change : change)
+        }
         set_3D={set_3D}
       />
       <Board
@@ -284,10 +322,9 @@ function MazePage() {
         onMouseUp={() => (mouse_down = false)}
         onMouseLeave={() => (mouse_down = false)}
       >
-        <ThreeD isActive={isThreeD}></ThreeD>
-        {!isThreeD &&
-          ListofType.map((row, y) => (
-            <Row>
+        <ThreeD></ThreeD>
+        {ListofType.map((row, y) => (
+            <Row id='row'>
               {row.map((column, x) => (
                 <Box
                   onMouseEnter={() => {
@@ -381,7 +418,7 @@ function WholePanel({
           initial={"Fast"}
         />
         <Slider
-          name="3D"
+          name="3D (WIP)"
           list={["Yes", "No"]}
           pick={(item) => {
             let yn = { Yes: true, No: false };

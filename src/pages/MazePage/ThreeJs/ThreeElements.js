@@ -5,5 +5,5 @@ export const ThreeContainer = styled.canvas`
     max-width: 100%;
     height: auto;
     z-index: 1;
-    display: ${({isActive})=>isActive?'initial':'none'}
+    display: none;
 `

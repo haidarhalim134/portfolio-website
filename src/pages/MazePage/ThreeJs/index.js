@@ -4,11 +4,11 @@ import { ThreeObject } from './Three'
 
 export const Panel = new ThreeObject()
 
-function ThreeD({ isActive }) {
+function ThreeD() {
 
     return (
       <>
-        <ThreeContainer id="ThreeD" isActive={isActive}></ThreeContainer>
+        <ThreeContainer id="ThreeD" ></ThreeContainer>
       </>
     );
 }

@@ -1,6 +1,10 @@
 import { solve } from '../GreedyBestFirstSearch'
+import { Panel } from '../../ThreeJs'
 
 export function get_height(y,x){
+    if(Panel.status){
+        return Panel.ListofHeight[y][x]
+    }
     let target = document.getElementById(`${y} ${x}`)
     if(!target.height){return 255}
     return target.height

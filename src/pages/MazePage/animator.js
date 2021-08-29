@@ -1,4 +1,4 @@
-function mazeGenerationAnimations(board,update,finished,maze=true) {
+function mazeGenerationAnimations(board,update,finished,maze=true,interval=[10,9]) {
     let nodes = board.wallsToAnimate.slice(0);
     let speed = board.speed === "Fast" ?
       5 : board.speed === "Average" ?
@@ -14,7 +14,7 @@ function mazeGenerationAnimations(board,update,finished,maze=true) {
       timeout(index + 1);
     }
     function timeout(index) {
-      if(maze&&index%10<9){
+      if(maze&&index%interval[0]<interval[1]){
         iterate(index)
         return}
       setTimeout(function () {
