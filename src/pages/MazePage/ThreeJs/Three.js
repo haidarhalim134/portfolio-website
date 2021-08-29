@@ -27,7 +27,6 @@ export function ThreeObject(
 
   this.camera.position.set(0, 20, 100);
   this.gridHelper = new Three.GridHelper(100, 50);
-  this.scene.add(this.gridHelper);
 
   this.ListofBoxes = [];
   this.ListofType = [];
@@ -103,6 +102,17 @@ export function ThreeObject(
       if (typeof to === "number") {
         this.ListofBoxes[y][x].position.setY(this.calcHeight(to))
         this.ListofHeight[y][x] = to
+        if (
+          this.start.position.x == x - half_col &&
+          this.start.position.z == y - half_row
+        ) {
+          this.start.position.setY(this.ListofBoxes[y][x].position.y + 1);
+        } else if (
+          this.end.position.x == x - half_col &&
+          this.end.position.z == y - half_row
+        ) {
+          this.end.position.setY(this.ListofBoxes[y][x].position.y + 1);
+        }
       }else{
         if(/fa/.test(to)){
           if(/ast/.test(to)){
