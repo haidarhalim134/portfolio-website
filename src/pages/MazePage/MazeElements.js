@@ -21,7 +21,7 @@ export const ControlPanel = styled.div`
 
     @media screen and (max-width:760px){
         flex-wrap: wrap;
-        height: 150px;
+        height: 225px;
     }
 `
 
@@ -60,6 +60,13 @@ export const BlockIcon = styled.div`
     border-radius: 50%;
     background: ${({available})=>available?'#f0f0f0':'#fff'};
 `
+
+export const SliderContainer = styled.div`
+  min-width: 150px;
+  height: 75px;
+  overflow: display;
+  z-index: 3;
+`;
 
 export const ButtonContainer = styled.div`
     min-width: 150px;

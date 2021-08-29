@@ -7,6 +7,7 @@ import {
   Board,
   Row,
   Box,
+  SliderContainer,
   ButtonContainer,
   BlocksMenuContainer,
   BlocksOption,
@@ -372,13 +373,15 @@ function WholePanel({
       <Sidebar isOpen={isOpen} remove={remove} toggle={toggle} />
       <Navbar toggle={toggle} />
       <ControlPanel>
-        <Slider
-          name="Algorithm"
-          list={Object.keys(Algo)}
-          pick={(item) => {
-            set_algorithm(item);
-          }}
-        />
+        <SliderContainer>
+          <Slider
+            name="Algorithm"
+            list={Object.keys(Algo)}
+            pick={(item) => {
+              set_algorithm(item);
+            }}
+          />
+        </SliderContainer>
         <Slider
           name="Generator"
           list={Object.keys(genAlgo)}
@@ -417,15 +420,17 @@ function WholePanel({
           }}
           initial={"Fast"}
         />
-        <Slider
-          name="3D (WIP)"
-          list={["Yes", "No"]}
-          pick={(item) => {
-            let yn = { Yes: true, No: false };
-            set_3D(yn[item]);
-          }}
-          initial="No"
-        />
+        <SliderContainer>
+          <Slider
+            name="3D (WIP)"
+            list={["Yes", "No"]}
+            pick={(item) => {
+              let yn = { Yes: true, No: false };
+              set_3D(yn[item]);
+            }}
+            initial="No"
+          />
+        </SliderContainer>
       </ControlPanel>
       <StatisticsContainer>
         <StatisticWrapper name="Visited" icon="Visited" unit="Nodes" />
