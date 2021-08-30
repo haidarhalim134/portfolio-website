@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import { useHistory } from "react-router";
 import "./index.css";
 import {
   MazeContainer,
@@ -33,6 +34,13 @@ const genAlgo = algoGroup.generate;
 const complex = ["Wave Terrain"];
 
 function MazePage() {
+
+  const history = useHistory()
+  useEffect(() => {
+    return history.listen((location) => {
+      Panel.status = false;
+    });
+  }, [history]); 
 
   let isThreeD = false
   
@@ -395,7 +403,7 @@ function WholePanel({
   return (
     <>
       <Sidebar isOpen={isOpen} remove={remove} toggle={toggle} id="side" />
-      <Navbar toggle={toggle} />
+      <Navbar toggle={toggle} notTrans={true} />
       <ControlPanel>
         <SliderContainer>
           <Slider

@@ -47,26 +47,28 @@ export const Slide = styled.div`
 `
 
 export const ProjectBg = styled.div`
-    width: 40%;
-    max-height: 100%;
-    overflow: hidden;
-    /* border-top-left-radius: 50px;
+  width: 40%;
+  max-height: 100%;
+  overflow: hidden;
+  /* border-top-left-radius: 50px;
     border-bottom-left-radius: 50px; */
-    z-index: 2;
-    border-bottom: solid;
-    border-width: 5px;
-    border-color: #01bf71;
+  z-index: 2;
+  border-bottom: solid;
+  border-width: 5px;
+  border-color: #01bf71;
+  object-fit: cover;
+  display: flex;
 
-    @media screen and (max-width:760px){
-        width: 80%;
-        height: 40%;
-    }
-`
+  @media screen and (max-width: 760px) {
+    width: 80%;
+    height: 40%;
+  }
+`;
 
 export const ProjectImg = styled.img`
     min-width: 100%;
     min-height: 450px;
-    object-fit: contain;
+    object-fit: cover;
     
     @media screen and (max-width:760px){
         height: 100%;

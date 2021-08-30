@@ -9,7 +9,7 @@ function HeroSection() {
                 <VideoBg autoPlay loop muted src={Video} type='video/mp4' />
             </HeroBg>
             <HeroContent>
-                <HeroH1>Hey, i'm human</HeroH1>
+                <HeroH1>Hey, my name is Haidar</HeroH1>
                 <HeroP>I'm an Indonesian student that loves coding, music, and writing!</HeroP>
                 <HeroBtnWrapper>
                     <Button to='/contact-me' primary='false'>Contact Me</Button>

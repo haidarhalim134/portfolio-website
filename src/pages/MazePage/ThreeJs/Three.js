@@ -25,7 +25,7 @@ export function ThreeObject(
     Trail: { height: 1, color: "0xffff03" },
   };
 
-  this.camera.position.set(0, 20, 100);
+  this.camera.position.set(0, 20, 10);
   this.gridHelper = new Three.GridHelper(100, 50);
 
   this.ListofBoxes = [];
@@ -59,7 +59,6 @@ export function ThreeObject(
       }
       let nBox = new Three.Mesh(geometry, material);
       nBox.position.set(x, 0, z);
-      console.log(z,x,this.start,this.end)
       if ([z, x][0]+half_row === this.start[0] && [z, x][1]+half_col === this.start[1]) {
         let geometry = new Three.ConeGeometry(1, 2);
         let material = new Three.MeshStandardMaterial({
