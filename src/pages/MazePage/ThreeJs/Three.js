@@ -1,6 +1,5 @@
 import * as Three from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { ThreeContainer } from "./ThreeElements";
 
 export function ThreeObject(
   rows = 15,
@@ -52,7 +51,7 @@ export function ThreeObject(
       let material = new Three.MeshStandardMaterial({
         wireframe: false,
       });
-      if(z%7==0&&x%7==0){
+      if(z%7===0&&x%7===0){
         let light = new Three.PointLight(0xffffff, 1, 30);
         light.position.set(x, 20, z);
         this.scene.add(light);
@@ -102,13 +101,13 @@ export function ThreeObject(
         this.ListofBoxes[y][x].position.setY(this.calcHeight(to))
         this.ListofHeight[y][x] = to
         if (
-          this.start.position.x == x - half_col &&
-          this.start.position.z == y - half_row
+          this.start.position.x === x - half_col &&
+          this.start.position.z === y - half_row
         ) {
           this.start.position.setY(this.ListofBoxes[y][x].position.y + 1);
         } else if (
-          this.end.position.x == x - half_col &&
-          this.end.position.z == y - half_row
+          this.end.position.x === x - half_col &&
+          this.end.position.z === y - half_row
         ) {
           this.end.position.setY(this.ListofBoxes[y][x].position.y + 1);
         }

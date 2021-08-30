@@ -1,7 +1,6 @@
 import Maze from '../../images/Maze.png'
 import Maze1 from '../../images/Maze1.png'
 import Maze2 from "../../images/Maze2.png";
-import Image from '../../images/Image.png'
 import Slider from '../Slider'
 import { BtnLink } from './ProjectElements'
 

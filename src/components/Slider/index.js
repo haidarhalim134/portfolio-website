@@ -13,12 +13,12 @@ function Slider({ contents,imgOnly,size,darken }) {
         if (slide){
             let newI = index1 + dir
             if (newI < 0){newI = (contents.length-1)}
-            else if (newI == contents.length){newI = (0)}
+            else if (newI === contents.length){newI = (0)}
             setIndex2(newI)
         }else{
             let newI = index2 + dir
             if (newI < 0){newI = (contents.length-1)}
-            else if (newI == contents.length){newI = (0)}
+            else if (newI === contents.length){newI = (0)}
             setIndex1(newI)
         }
         setSlide(!slide)

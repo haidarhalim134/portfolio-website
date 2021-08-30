@@ -3,7 +3,6 @@ import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
 import HeroSection from '../components/HeroSection';
 import ProjectSection from '../components/ProjectSection';
-import MazePage from './MazePage';
 
 function Home() {
     const [isOpen, setIsOpen] = useState(false)

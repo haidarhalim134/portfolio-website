@@ -53,7 +53,7 @@ function Surfer(y,x,height){
                 table[y][x] = true
                 for(let i = 1;i<5;i++){
                     let [newy,newx] = [y - traverse[i][0],  x - traverse[i][1]]
-                    if(!grid[newy] || !grid[newy][newx] || !table[y][x] || (this.y == newy && this.x == newx)){
+                    if(!grid[newy] || !grid[newy][newx] || !table[y][x] || (this.y === newy && this.x === newx)){
                         continue
                     }
                     let heightDiff = this.height-grid[newy][newx]

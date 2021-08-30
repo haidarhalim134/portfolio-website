@@ -11,9 +11,6 @@ import {
   Box,
   SliderContainer,
   ButtonContainer,
-  BlocksMenuContainer,
-  BlocksOption,
-  BlockIcon,
   StatisticsContainer,
   Statistic,
   Stat,
@@ -22,12 +19,10 @@ import {
 } from "./MazeElements";
 import Sidebar from "../../components/Sidebar";
 import Navbar from "../../components/Navbar";
-import { fill, sculpt } from "./Algorithm/PrimsR";
+import { fill } from "./Algorithm/PrimsR";
 import algoGroup from "./Algorithm_hub";
 import mazeGenerationAnimations from "./animator";
 import ThreeD, { Panel } from "./ThreeJs";
-import Grass from "../../images/grass.jpg";
-import Stone from "../../images/stone.png";
 
 const Algo = algoGroup.solve;
 const genAlgo = algoGroup.generate;
@@ -115,7 +110,7 @@ function MazePage() {
 
   const solve = (maze) => {
     console.log(maze)
-    if (typeof Algo[Algorithm] != "function") {
+    if (typeof Algo[Algorithm] !=="function") {
       return;
     }
     let args = [null, terrain];
@@ -151,7 +146,7 @@ function MazePage() {
   };
 
   const generate_maze = () => {
-    if (typeof genAlgo[Generator] != "function") {
+    if (typeof genAlgo[Generator] !=="function") {
       return;
     }
     ListofType = clearGrid(ListofType, isThreeD?Panel.change:change);
@@ -172,7 +167,7 @@ function MazePage() {
       //     combine = [...combine,...generate_coordinates(state)]
       //     console.log('layered')
       // }
-      // console.log('if',combine.some((item,index)=>{if(typeof item[2] != 'number'){console.log('got',item)}}))
+      // console.log('if',combine.some((item,index)=>{if(typeof item[2] !=='number'){console.log('got',item)}}))
       animate({ wallsToAnimate: combine, speed: speed }, true);
       ListofType = clearGrid(ListofType, isThreeD ? Panel.change : change);
       return;
@@ -236,7 +231,7 @@ function MazePage() {
         }
         return;
       } else if (/fa/.test(target.className) && !override) {
-        if (to != "Wall") {
+        if (to !=="Wall") {
           let classes = target.className.split(" ");
           classes[0] = to;
           to = classes.join(" ");
@@ -248,10 +243,10 @@ function MazePage() {
       target.className = to;
       return;
     }
-    if (ListofType[y][x] != "Wall" && !/fa/.test(ListofType[y][x])) {
+    if (ListofType[y][x] !=="Wall" && !/fa/.test(ListofType[y][x])) {
       ListofType[y][x] = "Wall";
       document.getElementById(`${y} ${x}`).className = "Wall";
-    } else if (ListofType[y][x] == "Wall") {
+    } else if (ListofType[y][x] === "Wall") {
       ListofType[y][x] = "Path";
       document.getElementById(`${y} ${x}`).className = "Path";
     }
@@ -302,9 +297,6 @@ function MazePage() {
     if (buttonState) {
       generate_maze();
     }
-  };
-  const set_carry = (item) => {
-    carry = item;
   };
 
   return (
@@ -520,24 +512,6 @@ function StatisticWrapper({ name, icon, unit, id }) {
         <Stat id={id ? id : name}>0</Stat>
         {unit}
       </Statistic>
-    </>
-  );
-}
-
-function BlocksWrapper({ name, icon, isActive, available }) {
-  return (
-    <>
-      <BlocksOption>
-        <BlockIcon
-          className={icon}
-          onClick={() => {
-            if (isActive()) {
-            }
-          }}
-          available={() => available()}
-        />{" "}
-        {name}
-      </BlocksOption>
     </>
   );
 }

@@ -12,10 +12,10 @@ const Navbar = ({ toggle,homePage,notTrans }) => {
         setScrollNav(notTrans);
       }
     }
-
+    
     useEffect(()=>{
       window.addEventListener('scroll',changeNav)
-    }, [])
+    })
 
     return (
       <>

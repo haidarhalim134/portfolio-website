@@ -24,7 +24,7 @@ export function sculpt(maze, start_node=null, end_node=null, update=null){
     let path_cell = 0
     for(let i = 1;i < 5;i++){
         let [newy, newx] = [y+traverse[i][0], x+traverse[i][1]]
-        if(isValid(newy, newx) && maze[newy][newx] == 'Path'){
+        if(isValid(newy, newx) && maze[newy][newx] === 'Path'){
             path_cell+= 1
         }
     }return path_cell
@@ -33,7 +33,7 @@ export function sculpt(maze, start_node=null, end_node=null, update=null){
   function turn(y, x){
     for(let i = 1;i < 5;i++){
         let [newy, newx] = [y+traverse[i][0], x+traverse[i][1]]
-        if(isValid(newy, newx) && maze[newy][newx] == '\''){
+        if(isValid(newy, newx) && maze[newy][newx] === '\''){
             maze[newy][newx] = 'Wall'
             update(newy, newx, 'Wall')
             walls.push([newy, newx])
@@ -46,7 +46,7 @@ export function sculpt(maze, start_node=null, end_node=null, update=null){
       for(let y = 0;y<maze.length;y++){
           let temp = []
           for(let x = 0;x<maze[0].length;x++){
-            if(maze[y][x]=='\''){
+            if(maze[y][x]==='\''){
             temp.push('Wall')
             update(y,x,'Wall')
           }else{
@@ -79,15 +79,15 @@ export function sculpt(maze, start_node=null, end_node=null, update=null){
       
       for(let i = 0;i < 2;i++){
           for(let j = -1;j < 2;j+= 2){
-              let holder = [random_wall[i == 0?1:i-1] + j, random_wall[i == 0?1:i-1] - j, random_wall[i], random_wall[i]]
-              if(i == 0){holder.reverse()}
+              let holder = [random_wall[i === 0?1:i-1] + j, random_wall[i === 0?1:i-1] - j, random_wall[i], random_wall[i]]
+              if(i === 0){holder.reverse()}
               let [static1, static2, one_side, other_side] = holder
 
               if(!isValid(static1,one_side) || !isValid(static2,other_side)){
                   continue
               }
               
-              if(maze[static1][one_side] == '\'' && maze[static2][other_side] == 'Path' && surrounding_cells(...random_wall) < 2){
+              if(maze[static1][one_side] === '\'' && maze[static2][other_side] === 'Path' && surrounding_cells(...random_wall) < 2){
                   maze[random_wall[0]][random_wall[1]] = 'Path'
                   update(...random_wall, 'Path')
                   turn(...random_wall)
